@@ -1,0 +1,24 @@
+doctype html
+html
+	head
+		meta(charset="UTF-8")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		title= title
+		link(href="stylesheets/bootstrap.min.css", rel="stylesheet")
+		link(rel="stylesheet", href="/stylesheets/style.css")
+		link(href="font-awesome/css/font-awesome.min.css", rel="stylesheet", type="text/css")
+
+	body
+		#wrapper
+			include menu
+
+			#page-wrapper
+				div.container-fluid
+					block content
+
+		<!-- jQuery -->
+		script(src="js/jquery.js")
+
+		<!-- Bootstrap Core JavaScript -->
+		script(src="js/bootstrap.min.js")
