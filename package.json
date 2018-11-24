@@ -10,11 +10,12 @@
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
+    "ejs": "^2.6.1",
     "express": "~4.0.0",
     "express-load": "~1.1.14",
     "express-session": "latest",
     "morgan": "~1.0.0",
-    "pug": "^2.0.0-beta6",
+    "neo4j-driver": "^1.7.2",
     "static-favicon": "~1.0.0"
   }
 }

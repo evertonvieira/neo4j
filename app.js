@@ -11,7 +11,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -24,5 +24,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 load('models').then('controllers').then('routes').into(app);
 
 app.listen(3000, function() {
-	console.log('Servidro rodando na porta 3000');
+	console.log('Servidor rodando na porta 3000');
 });

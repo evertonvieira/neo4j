@@ -1,0 +1,46 @@
+<h1><%=titulo%></h1>
+
+<form action="filmes/add" method="POST">
+	<fieldset>
+		
+		<legend>Cadastrar Filme</legend>
+		<div>
+			<label for="">Nome do Filme</label>
+			<input type="text" name="nome">
+		</div>
+		<div>
+			<label for="">Ano de Lançamento</label>
+			<input type="text" name="ano">
+		</div>
+		<div>
+			<label for="">Gênero</label>
+			<input type="text" name="genero">
+		</div>
+		<div>
+			<label for="">Duração</label>
+			<input type="text" name="duracao">
+		</div>
+		<div>
+			<label for="">Classificação</label>
+			<input type="text" name="classificacao">
+		</div>
+		<input type="submit" value="Salvar">
+	</fieldset>
+
+</form>
+
+<h2>Filmes</h2>
+<ul>
+	<% filmes.forEach(function(filme){ %>
+		<li>
+			<%=filme.nome %>
+			<ul>
+				<li><%=filme.ano %></li>
+				<li><%=filme.genero %></li>
+				<li><%=filme.duracao %></li>
+				<li><%=filme.classificacao %></li>
+			</ul>
+
+		</li>
+	<% }); %>
+</ul>
