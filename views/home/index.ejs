@@ -1,46 +1,142 @@
-<h1><%=titulo%></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="/public/stylesheets/style.css">
+	<title><%= titulo %></title>
+</head>
+<body>
+	
+	<div class="container">
+		<div class="page-header">
+			<h1><%= titulo %></h1>
+		</div>
+		<div class="row">			
+			<div class="col-md-6">
+				<form action="filmes/add" class="form-horizontal" method="POST">
+					<fieldset>			
+						<legend>Cadastrar filmes</legend>
+						<div class="form-group">
+							<label for="nomeFilme" class="col-sm-3 control-label">Nome do filme</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="nomeFilme" name="nome">
+							</div>
+						</div>
 
-<form action="filmes/add" method="POST">
-	<fieldset>
-		
-		<legend>Cadastrar Filme</legend>
-		<div>
-			<label for="">Nome do Filme</label>
-			<input type="text" name="nome">
-		</div>
-		<div>
-			<label for="">Ano de Lançamento</label>
-			<input type="text" name="ano">
-		</div>
-		<div>
-			<label for="">Gênero</label>
-			<input type="text" name="genero">
-		</div>
-		<div>
-			<label for="">Duração</label>
-			<input type="text" name="duracao">
-		</div>
-		<div>
-			<label for="">Classificação</label>
-			<input type="text" name="classificacao">
-		</div>
-		<input type="submit" value="Salvar">
-	</fieldset>
+						<div class="form-group">
+							<label for="anoFilme" class="col-sm-3 control-label">Ano de lançamento</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="anoFilme" name="ano">
+							</div>
+						</div>
 
-</form>
+						<div class="form-group">
+							<label for="generoFilme" class="col-sm-3 control-label">Gênero</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="generoFilme" name="genero">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="duracaoFilme" class="col-sm-3 control-label">Duração</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="duracaoFilme" name="duracao">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="classificacaoFilme" class="col-sm-3 control-label">Classificação</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="classificacaoFilme" name="classificacao">
+							</div>
+						</div>
+						<div class="form-group">							
+							<label for="filmesDiretor" class="col-sm-3 control-label">Diretor</label>
+							<div class="col-sm-9">
+								<select class="form-control" name="diretor" id="filmesDiretor">
+									<% diretores.forEach(function(diretor) { %>
+										<option value="<%= diretor.id %>"><%= diretor.nome %></option>
+									<% }); %>								
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						</div>
+					</fieldset>	
+				</form>
+			</div>
 
-<h2>Filmes</h2>
-<ul>
-	<% filmes.forEach(function(filme){ %>
-		<li>
-			<%=filme.nome %>
-			<ul>
-				<li><%=filme.ano %></li>
-				<li><%=filme.genero %></li>
-				<li><%=filme.duracao %></li>
-				<li><%=filme.classificacao %></li>
-			</ul>
+			<div class="col-md-6">
+				<form action="diretores/add" class="form-horizontal" method="POST">
+					<fieldset>			
+						<legend>Cadastrar diretor</legend>
+						<div class="form-group">
+							<label for="nomeDiretor" class="col-sm-3 control-label">Nome do diretor</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="nomeDiretor" name="nome">
+							</div>
+						</div>
 
-		</li>
-	<% }); %>
-</ul>
+						<div class="form-group">
+							<label for="idadeDiretor" class="col-sm-3 control-label">Idade do diretor</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="idadeDiretor" name="idade">
+							</div>
+						</div>
+						<div class="form-group">							
+							<label for="filmesDirigidos" class="col-sm-3 control-label">Filmes dirigidor</label>
+							<div class="col-sm-9">
+								<select multiple class="form-control" name="filmes" id="filmesDirigidos">
+									<% filmes.forEach(function(filme) { %>
+										<option value="<%= filme.id %>"><%= filme.nome %></option>
+									<% }); %>								
+								</select>
+							</div>
+						</div>						
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						</div>
+					</fieldset>	
+				</form>
+			</div>
+			
+
+			<div class="col-md-12">
+				<h2>Filmes</h2>
+				<div class="row">
+					<% filmes.forEach(function(filme) { %>
+						<div class="col-md-4">
+							<div class="jumbotron card-filmes">
+								<h3>
+									<%= filme.nome %>
+								</h3>
+								<ul>
+									<li><%= filme.ano %></li>
+									<li><%= filme.genero %></li>
+									<li><%= filme.duracao %></li>
+									<li><%= filme.classificacao %></li>
+								</ul>
+								<div>
+									<a href="/filmes/editar/<%=filme.id%>" class="btn btn-primary">Editar</a>
+									<a href="/filmes/delete/<%=filme.id%>" class="btn btn-danger">Deletar</a>
+								</div>												
+							</div>
+						</div>
+					<% }); %>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	
+	
+</body>
+</html>

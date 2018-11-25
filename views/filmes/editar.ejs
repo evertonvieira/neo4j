@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="/public/stylesheets/style.css">
+	<title><%= titulo %></title>
+</head>
+<body>
+	
+	<div class="container">
+		<div class="page-header">
+			<h1><%= titulo %></h1>
+		</div>
+		<div class="row">			
+			<div class="col-md-6">
+                <form action="/filmes/save" class="form-horizontal" method="POST">
+					<input type="hidden" value="<%=filme.id %>" name="id">
+					<input type="hidden" value="<%=filme.idDiretor %>" name="oldIdDiretor">
+					
+					<fieldset>			
+						<legend>Editar filme</legend>
+						<div class="form-group">
+							<label for="nomeFilme" class="col-sm-3 control-label">Nome do filme</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="nomeFilme" value="<%=filme.nome %>" name="nome">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="anoFilme" class="col-sm-3 control-label">Ano de lançamento</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="anoFilme" value="<%=filme.ano %>" name="ano">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="generoFilme" class="col-sm-3 control-label">Gênero</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="generoFilme" value="<%=filme.genero %>" name="genero">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="duracaoFilme" class="col-sm-3 control-label">Duração</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="duracaoFilme" value="<%=filme.duracao %>" name="duracao">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="classificacaoFilme" class="col-sm-3 control-label">Classificação</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="classificacaoFilme" value="<%=filme.classificacao %>" name="classificacao">
+							</div>
+						</div>
+						<div class="form-group">							
+								<label for="filmesDiretor" class="col-sm-3 control-label">Diretor</label>
+								<div class="col-sm-9">
+									<select class="form-control" name="idDiretor" id="filmesDiretor">
+										<% diretores.forEach(function(diretor) { %>
+											<option <%= (filme.idDiretor == diretor.id ) ? "selected" : "" %>  value="<%= diretor.id %>"><%= diretor.nome %></option>
+										<% }); %>								
+									</select>
+								</div>
+							</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						</div>
+					</fieldset>	
+				</form>
+			</div>			
+
+		</div>
+	</div>
+	
+	
+</body>
+</html>
