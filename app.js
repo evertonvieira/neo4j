@@ -5,6 +5,7 @@ const express      = require('express'),
   cookieParser     = require('cookie-parser'),
   bodyParser       = require('body-parser'),
   load             = require('express-load');
+  env              = require('dotenv').load({path: "./config/config.env"});
 
 var app = express();
 

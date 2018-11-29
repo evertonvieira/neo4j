@@ -1,11 +1,14 @@
 const neo4j = require('neo4j-driver').v1;
-let uri = "bolt://localhost:7687"
-let user  = "admin"
-let password = "admin"
 
 module.exports = function(app){
 
-    const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+    const driver = neo4j.driver(
+        process.env.NEO4J_HOST, 
+        neo4j.auth.basic(
+            process.env.NEO4J_USERNAME, 
+            process.env.NEO4J_PASSWORD
+        )
+    );
 	const session = driver.session();
 
 	var FilmesController = {
