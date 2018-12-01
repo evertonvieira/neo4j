@@ -6,10 +6,25 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
 	<link rel="stylesheet" href="/public/stylesheets/style.css">
+	<script src="/public/js/jquery.js" type="text/javascript"></script>
+	<script src="/public/js/bootstrap.min.js" type="text/javascript"></script>
 	<title><%= titulo %></title>
 </head>
 <body>
-	
+	<% if(messages.success) { %>
+	<div class="alert alert-success alert-dismissible text-center" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<strong>Sucesso!</strong> <%- messages.success %>
+	</div>
+	<% } %>
+
+	<% if(messages.error) { %>
+		<div class="alert alert-danger alert-dismissible text-center" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>Erro!</strong> <%- messages.error %>
+		</div>
+	<% } %>
+
 	<div class="container">
 		<div class="page-header">
 			<h1><%= titulo %></h1>
@@ -22,41 +37,41 @@
 						<div class="form-group">
 							<label for="nomeFilme" class="col-sm-3 control-label">Nome do filme</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="nomeFilme" name="nome">
+								<input type="text" class="form-control" id="nomeFilme" name="filme[nome]" required="">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="anoFilme" class="col-sm-3 control-label">Ano de lançamento</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="anoFilme" name="ano">
+								<input type="number" min="0" class="form-control" id="anoFilme" name="filme[ano]" required="">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="generoFilme" class="col-sm-3 control-label">Gênero</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="generoFilme" name="genero">
+								<input type="text" class="form-control" id="generoFilme" name="filme[genero]" required="" >
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="duracaoFilme" class="col-sm-3 control-label">Duração</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="duracaoFilme" name="duracao">
+								<input type="text" class="form-control" id="duracaoFilme" name="filme[duracao]" required="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="classificacaoFilme" class="col-sm-3 control-label">Classificação</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="classificacaoFilme" name="classificacao">
+								<input type="text" class="form-control" id="classificacaoFilme" name="filme[classificacao]" required="">
 							</div>
 						</div>
 						<div class="form-group">							
-							<label for="filmesDiretor" class="col-sm-3 control-label">Diretor</label>
+							<label for="filmesAtor" class="col-sm-3 control-label">Ator</label>
 							<div class="col-sm-9">
-								<select class="form-control" name="diretor" id="filmesDiretor">
-									<% diretores.forEach(function(diretor) { %>
-										<option value="<%= diretor.id %>"><%= diretor.nome %></option>
+								<select class="form-control" multiple name="filme[ator]" id="filmesAtor" required="">
+									<% atores.forEach(function(ator) { %>
+										<option value="<%= ator.id %>"><%= ator.nome %></option>
 									<% }); %>								
 								</select>
 							</div>
@@ -71,26 +86,26 @@
 			</div>
 
 			<div class="col-md-6">
-				<form action="diretores/add" class="form-horizontal" method="POST">
+				<form action="atores/add" class="form-horizontal" method="POST">
 					<fieldset>			
-						<legend>Cadastrar diretor</legend>
+						<legend>Cadastrar ator</legend>
 						<div class="form-group">
-							<label for="nomeDiretor" class="col-sm-3 control-label">Nome do diretor</label>
+							<label for="nomeAtor" class="col-sm-3 control-label">Nome do ator</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="nomeDiretor" name="nome">
+								<input type="text" class="form-control" id="nomeAtor" name="ator[nome]" required="">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="idadeDiretor" class="col-sm-3 control-label">Idade do diretor</label>
+							<label for="idadeAtor" class="col-sm-3 control-label">Idade do ator</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="idadeDiretor" name="idade">
+								<input type="number" min="0" class="form-control" id="idadeAtor" name="ator[idade]" required="">
 							</div>
 						</div>
 						<div class="form-group">							
-							<label for="filmesDirigidos" class="col-sm-3 control-label">Filmes dirigidor</label>
+							<label for="filmesAtuados" class="col-sm-3 control-label">Participações</label>
 							<div class="col-sm-9">
-								<select multiple class="form-control" name="filmes" id="filmesDirigidos">
+								<select multiple class="form-control" name="ator[filmes]" id="filmesAtuados">
 									<% filmes.forEach(function(filme) { %>
 										<option value="<%= filme.id %>"><%= filme.nome %></option>
 									<% }); %>								

@@ -14,9 +14,9 @@ module.exports = function(app){
 	var HomeController = {
 		index: function(req, res){
 
-			let filmes = []
-			let diretores = []
-			let titulo = 'Página Principal'
+			let filmes = [];
+			let atores = [];
+			let titulo = 'Página Principal';
 			
 			session
 				.run('MATCH (n:Filmes) RETURN n')
@@ -33,19 +33,18 @@ module.exports = function(app){
 					});
 
 				session
-					.run('MATCH (d:Diretores) RETURN d')
+					.run('MATCH (d:Atores) RETURN d')
 					.then(function(array){
 						array.records.forEach(function(record){
-
-							diretores.push({
+							atores.push({
 								id: record._fields[0].identity.low,
 								nome: record._fields[0].properties.nome,
 							})
-						});
+						});						
 						res.render('home/index',{
 							titulo: titulo,
 							filmes: filmes,
-							diretores: diretores
+							atores: atores,
 						});
 						
 					})
@@ -58,13 +57,7 @@ module.exports = function(app){
 			.catch(function(err){
 				console.log(err);
 			});
-			
-			
 
-
-			
-			
-			
 		}
 
 	}

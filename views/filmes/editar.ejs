@@ -9,57 +9,71 @@
 	<title><%= titulo %></title>
 </head>
 <body>
+
+	<% if(messages.success) { %>
+		<div class="alert alert-success alert-dismissible text-center" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>Sucesso!</strong> <%- messages.success %>
+		</div>
+	<% } %>
+	
+	<% if(messages.error) { %>
+		<div class="alert alert-danger alert-dismissible text-center" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>Erro!</strong> <%- messages.error %>
+		</div>
+	<% } %>
 	
 	<div class="container">
 		<div class="page-header">
 			<h1><%= titulo %></h1>
+			<small><a href="/" title="Voltar a página inicial">Voltar</a></small>
 		</div>
 		<div class="row">			
 			<div class="col-md-6">
                 <form action="/filmes/save" class="form-horizontal" method="POST">
-					<input type="hidden" value="<%=filme.id %>" name="id">
-					<input type="hidden" value="<%=filme.idDiretor %>" name="oldIdDiretor">
-					
+					<input type="hidden" value="<%=filme.id %>" name="filme[id]">
+					<input type="hidden" value="<%=filme.idAtor %>" name="filme[oldIdAtor]">					
 					<fieldset>			
 						<legend>Editar filme</legend>
 						<div class="form-group">
 							<label for="nomeFilme" class="col-sm-3 control-label">Nome do filme</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="nomeFilme" value="<%=filme.nome %>" name="nome">
+								<input type="text" class="form-control" id="nomeFilme" value="<%=filme.nome %>" name="filme[nome]" required="">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="anoFilme" class="col-sm-3 control-label">Ano de lançamento</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="anoFilme" value="<%=filme.ano %>" name="ano">
+								<input type="number" min="0" class="form-control" id="anoFilme" value="<%=filme.ano %>" name="filme[ano]" required="">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="generoFilme" class="col-sm-3 control-label">Gênero</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="generoFilme" value="<%=filme.genero %>" name="genero">
+								<input type="text" class="form-control" id="generoFilme" value="<%=filme.genero %>" name="filme[genero]" required="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="duracaoFilme" class="col-sm-3 control-label">Duração</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="duracaoFilme" value="<%=filme.duracao %>" name="duracao">
+								<input type="text" class="form-control" id="duracaoFilme" value="<%=filme.duracao %>" name="filme[duracao]" required="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="classificacaoFilme" class="col-sm-3 control-label">Classificação</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="classificacaoFilme" value="<%=filme.classificacao %>" name="classificacao">
+								<input type="text" class="form-control" id="classificacaoFilme" value="<%=filme.classificacao %>" name="filme[classificacao]" required="">
 							</div>
 						</div>
 						<div class="form-group">							
-								<label for="filmesDiretor" class="col-sm-3 control-label">Diretor</label>
+								<label for="filmesDiretor" class="col-sm-3 control-label">Ator</label>
 								<div class="col-sm-9">
-									<select class="form-control" name="idDiretor" id="filmesDiretor">
-										<% diretores.forEach(function(diretor) { %>
-											<option <%= (filme.idDiretor == diretor.id ) ? "selected" : "" %>  value="<%= diretor.id %>"><%= diretor.nome %></option>
+									<select class="form-control" name="filme[idAtor]" id="filmesAtor" required="">
+										<% atores.forEach(function(ator) { %>
+											<option <%= (filme.idAtor == ator.id ) ? "selected" : "" %>  value="<%= ator.id %>"><%= ator.nome %></option>
 										<% }); %>								
 									</select>
 								</div>
