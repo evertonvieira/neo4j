@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="/public/stylesheets/style.css">
+	<title><%= titulo %></title>
+</head>
+<body>
+
+	<% if(messages.success) { %>
+		<div class="alert alert-success alert-dismissible text-center" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>Sucesso!</strong> <%- messages.success %>
+		</div>
+	<% } %>
+	
+	<% if(messages.error) { %>
+		<div class="alert alert-danger alert-dismissible text-center" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>Erro!</strong> <%- messages.error %>
+		</div>
+	<% } %>
+	
+	<div class="container">
+		<div class="page-header">
+			<h1><%= titulo %></h1>
+			<small><a href="/" title="Voltar a página inicial">Voltar</a></small>
+		</div>
+		<div class="row">			
+			<div class="col-md-6">
+				<form action="/atores/save" class="form-horizontal" method="POST">
+					<input type="hidden" value="<%=ator.id %>" name="ator[id]">
+					<fieldset>	
+	
+						<legend>Editar ator</legend>
+						<div class="form-group">
+							<label for="nomeAtor" class="col-sm-3 control-label">Nome do ator</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="nomeAtor" value="<%= ator.nome %>" name="ator[nome]" required="">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="idadeAtor" class="col-sm-3 control-label">Idade do ator</label>
+							<div class="col-sm-9">
+								<input type="number" min="0" class="form-control" value="<%= ator.idade %>" id="idadeAtor" name="ator[idade]" required="">
+							</div>
+						</div>					
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						</div>
+					</fieldset>	
+				</form>
+			</div>			
+
+		</div>
+	</div>
+	
+</body>
+</html>

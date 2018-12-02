@@ -118,6 +118,13 @@
 							</div>
 						</div>
 					</fieldset>	
+					<h3>Atores:</h3>
+					<ul>
+						<% atores.forEach(function(ator) { %>
+							<li><a href="/atores/editar/<%=ator.id%>" title="Editar Ator"><%= ator.nome %></a></li>
+						<% }); %>
+
+					</ul>
 				</form>
 			</div>
 			
