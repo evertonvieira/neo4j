@@ -32,8 +32,7 @@
 		<div class="row">			
 			<div class="col-md-6">
                 <form action="/filmes/save" class="form-horizontal" method="POST">
-					<input type="hidden" value="<%=filme.id %>" name="filme[id]">
-					<input type="hidden" value="<%=filme.idAtor %>" name="filme[oldIdAtor]">					
+					<input type="hidden" value="<%=filme.id %>" name="filme[id]">			
 					<fieldset>			
 						<legend>Editar filme</legend>
 						<div class="form-group">
@@ -69,15 +68,20 @@
 							</div>
 						</div>
 						<div class="form-group">							
-								<label for="filmesDiretor" class="col-sm-3 control-label">Ator</label>
-								<div class="col-sm-9">
-									<select class="form-control" name="filme[idAtor]" id="filmesAtor" required="">
-										<% atores.forEach(function(ator) { %>
-											<option <%= (filme.idAtor == ator.id ) ? "selected" : "" %>  value="<%= ator.id %>"><%= ator.nome %></option>
-										<% }); %>								
-									</select>
-								</div>
+							<label for="filmesDiretor" class="col-sm-3 control-label">Ator</label>
+							<div class="col-sm-9">
+								<select class="form-control" name="filme[idAtor]" id="filmesAtor" required="" multiple>
+									<% atores.forEach(function(ator) { %>
+										<option <%= (ator.selected) ?"selected": ""%>  value="<%= ator.id %>"><%= ator.nome %></option>
+									<% }); %>								
+								</select>
+								<select class="form-control" name="filme[oldIdAtor]" id="filmesAtor" style="display: none;" multiple>
+									<% filme.atores.forEach(function(ator) { %>
+										<option selected value="<%= ator.idAtor %>"><%= ator.nome %></option>
+									<% }); %>								
+								</select>
 							</div>
+						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<button type="submit" class="btn btn-primary">Salvar</button>
@@ -89,7 +93,6 @@
 
 		</div>
 	</div>
-	
 	
 </body>
 </html>

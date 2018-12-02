@@ -23,18 +23,18 @@ module.exports = function(app){
             WITH p
             MATCH (b:Atores)
             MATCH (b)-[r:ATUOU]->(p)
-            RETURN b,p
+            RETURN p,b
             `
-            let filme = {}
-            let atores = []
+            let filme = {};
+            filme.atores = [];
+            AtoresOld = [];
+            let atores = [];
             var titulo = 'Filmes'
             			
 			session
 			.run(cypher)
 			.then(function(result){
-                console.log(result)
 				result.records.forEach(function(record){
-                    
                    
                     record._fields.forEach(function(element) {
                         if(element.labels[0] == "Filmes"){
@@ -45,33 +45,52 @@ module.exports = function(app){
                             filme.classificacao = element.properties.classificacao;
                             filme.genero = element.properties.genero;
                         }else if(element.labels[0] == "Atores"){
-                            filme.idAtor = element.identity.low;
-                            filme.nomeAtor = element.properties.nome;
+                            if (filme.id){
+                                filme.atores.push({
+                                    idAtor: element.identity.low,
+                                    nomeAtor: element.properties.nome
+                                });
+                            }   
+
+                            AtoresOld.push({
+                                idAtor: element.identity.low,
+                                nomeAtor: element.properties.nome
+                            });                         
                         }
                     });
                    
                 });
-
                 session
-					.run('MATCH (d:Atores) RETURN d')
-					.then(function(array){
-						array.records.forEach(function(record){
+                .run('MATCH (d:Atores) RETURN d')
+                .then(function(array){
+                    array.records.forEach(function(record){
 
-							atores.push({
-								id: record._fields[0].identity.low,
-								nome: record._fields[0].properties.nome,
-							})
-						});
-						res.render('filmes/editar',{
-							titulo: titulo,
-							filme: filme,
-							atores: atores
-						});
-						
-					})
-					.catch(function(err){
-						console.log(err);
-					});
+                        let idAtor = record._fields[0].identity.low;
+                        var flag = false
+                        for (let i = 0; i < AtoresOld.length; i++) {
+                            if (AtoresOld[i].idAtor == idAtor){
+                                var flag = true
+                            }                                
+                        }
+                        let ator = {
+                            id: idAtor,
+                            nome: record._fields[0].properties.nome,
+                            selected: flag                                
+                        }
+                        atores.push(ator);
+                        
+                    });
+                    res.render('filmes/editar',{
+                        titulo: titulo,
+                        filme: filme,
+                        atores: atores
+                    });
+                    
+                })
+                
+                .catch(function(err){
+                    console.log(err);
+                });
 			})
 			
 			.catch(function(err){
@@ -126,7 +145,6 @@ module.exports = function(app){
         },
 
         save: function(req, res){
-
             let filme = req.body.filme;
             const cypher =  `
                 MATCH (v:Filmes) WHERE id(v) = ${filme.id}
@@ -134,18 +152,13 @@ module.exports = function(app){
                 v.classificacao = "${filme.classificacao}", v.genero = "${filme.genero}"
 
                 WITH v
-                MATCH (o:Atores)
-                WHERE id(o) = ${filme.oldIdAtor}
-
-                WITH o
-                MATCH (o)-[r:ATUOU]->(v) 
+                MATCH ()-[r:ATUOU]->(v)
                 DELETE r
 
                 WITH v
-                MATCH (b:Atores)
-                WHERE id(b) = ${filme.idAtor}
-                CREATE (b)-[r:ATUOU]->(v)             
-                
+                MATCH(a:Atores)
+                WHERE id(a) in [${filme.idAtor}]
+                CREATE UNIQUE (a)-[r:ATUOU]->(v) return r      
                 `
             session.run(cypher)
             .then(function(result){
@@ -159,7 +172,7 @@ module.exports = function(app){
                 console.log(err)
                 session.close()
             })
-			
+		
         },
 
         delete: function(req, res){

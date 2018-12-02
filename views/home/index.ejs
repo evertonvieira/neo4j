@@ -130,13 +130,17 @@
 							<div class="jumbotron card-filmes">
 								<h3>
 									<%= filme.nome %>
-								</h3>
-								<ul>
-									<li><%= filme.ano %></li>
-									<li><%= filme.genero %></li>
-									<li><%= filme.duracao %></li>
-									<li><%= filme.classificacao %></li>
-								</ul>
+								</h3>							
+								<li><%= filme.ano %></li>
+								<li><%= filme.genero %></li>
+								<li><%= filme.duracao %></li>
+								<li><%= filme.classificacao %></li>
+								<br>
+								<b>Atores</b>
+								<% filme.atores.forEach(function(ator) { %>
+									<li><%= ator.nome %></li>
+								<% }); %>
+								<hr>
 								<div>
 									<a href="/filmes/editar/<%=filme.id%>" class="btn btn-primary">Editar</a>
 									<a href="/filmes/delete/<%=filme.id%>" class="btn btn-danger">Deletar</a>

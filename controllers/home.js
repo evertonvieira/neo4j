@@ -16,20 +16,76 @@ module.exports = function(app){
 
 			let filmes = [];
 			let atores = [];
+			let atoresRelated = []
 			let titulo = 'Página Principal';
 			
 			session
-				.run('MATCH (n:Filmes) RETURN n')
+				.run('MATCH (a)-[r]->(b) RETURN a,b,r')
 				.then(function(result){
 					result.records.forEach(function(record){
-						filmes.push({
-							id: record._fields[0].identity.low,
-							nome: record._fields[0].properties.nome,
-							ano: record._fields[0].properties.ano,
-							duracao: record._fields[0].properties.duracao,
-							classificacao: record._fields[0].properties.classificacao,
-							genero: record._fields[0].properties.genero
+						record.forEach(function(v,k,r) {
+							
+							if(v.constructor.name == "Node"){
+								if(v.labels[0] == "Filmes"){
+									var flag = false
+									let objectFilme = {
+										id: v.identity.low,
+									   	nome: v.properties.nome,
+										ano: v.properties.ano,
+										duracao: v.properties.duracao,
+										classificacao: v.properties.classificacao,
+										genero: v.properties.genero,
+										atores:[]
+									};
+									for (var i = 0; i < filmes.length; i++){
+										if(filmes[i].id == objectFilme.id ){
+											var flag = true;
+										}
+									}
+									if (!flag){
+										filmes.push(objectFilme);
+									} 
+
+								}else if(v.labels[0] == "Atores"){
+									let objectAtor = {
+										id: v.identity.low,
+										nome: v.properties.nome
+									};
+									var flag = false
+									for (var i = 0; i < atoresRelated.length; i++){
+										if(atoresRelated[i].id == objectAtor.id ){
+											var flag = true;
+										}
+									}
+									if (!flag) atoresRelated.push(objectAtor);
+								}
+							}else if(v.constructor.name == "Relationship"){
+								
+								idStart = v.start.low;
+								idEnd = v.end.low;
+
+								for (let i = 0; i < atoresRelated.length; i++) {
+									if(idStart == atoresRelated[i].id){
+										actorTemp = atoresRelated[i];
+									} 
+									for (let j = 0; j < filmes.length; j++) {
+										if(idEnd == filmes[j].id){
+											filmeTemp = filmes[j];
+										} 	
+									}
+									
+								}
+
+								var flag = false
+								for (var i = 0; i < filmeTemp.atores.length; i++){
+									if(filmeTemp.atores[i].id == actorTemp.id ){
+										var flag = true;
+									}
+								}
+								if (!flag) filmeTemp.atores.push(actorTemp);
+							}
 						})
+						
 					});
 
 				session
